@@ -16,7 +16,7 @@ public class Deck {
     }
 
     public void setCards(String ranks[], String suits[], int points[]) {
-        for (int i = 0; i <= ranks.length - 1; i++) {
+        for (int i = 0; i < ranks.length; i++) {
             Card fresh = new Card(ranks[i], points[i], suits[i]);
             cards.add(fresh);
         }

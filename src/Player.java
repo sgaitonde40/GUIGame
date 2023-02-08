@@ -41,9 +41,10 @@ public class Player {
         this.points += points;
     }
 
-    public void addCard(Card c) {
+    public void addCard(Card c, boolean visible) {
         hand.add(c);
         addpoints(c.getPoint());
+        c.setVisible(visible);
     }
 
 

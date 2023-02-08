@@ -3,11 +3,13 @@ import java.util.Scanner;
 public class Game {
     public Player p1 = new Player();
     private Deck cardy = new Deck();
+    private GameViewer window;
 
-    public Game(String firstname) {
+    public Game (String firstname) {
         String ranks[] = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K", "A", "2", "3", "4", "5", "6", "7",
                 "8", "9", "J", "Q", "K", "A", "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K", "A", "2", "3", "4",
                 "5", "6", "7", "8", "9", "J", "Q", "K"};
+
         String suits[] = {"Hearts", "Hearts", "Hearts", "Hearts", "Hearts", "Hearts", "Hearts", "Hearts", "Hearts", "Hearts",
                 "Hearts", "Hearts", "Clubs", "Clubs", "Clubs", "Clubs", "Clubs", "Clubs", "Clubs", "Clubs", "Clubs", "Clubs",
                 "Clubs", "Clubs", "Spades", "Spades", "Spades", "Spades", "Spades", "Spades", "Spades", "Spades", "Spades",
@@ -15,8 +17,11 @@ public class Game {
                 "Diamonds", "Diamonds", "Diamonds", "Diamonds", "Diamonds", "Diamonds"};
         int values[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 1, 2, 3, 4, 5, 6, 7,
                 8, 9, 10, 10, 10};
+
+
         cardy.setCards(ranks, suits, values);
         p1.setName(firstname);
+        this.window = new GameViewer(this);
     }
 
     public void printInstructions() {
@@ -26,28 +31,30 @@ public class Game {
         System.out.println("Every round you can choose to pick a card or pass");
         System.out.println("If you go over 21 you instantly lose");
         System.out.println("Good Luck!");
+        System.out.println();
     }
 
     public void playGame() {
         cardy.shuff();
-        p1.addCard(cardy.deal());
-        p1.addCard(cardy.deal());
+        p1.addCard(cardy.deal(), true);
+        p1.addCard(cardy.deal(), true);
         Player ai = new Player("AI");
-        ai.addCard(cardy.deal());
-        ai.addCard(cardy.deal());
+        ai.addCard(cardy.deal(), false);
+        ai.addCard(cardy.deal(), false);
         System.out.println(p1.getPoints());
         System.out.println("If you would like to hit press H. Else press any other key");
         Scanner s = new Scanner(System.in);
         String answer = s.nextLine();
-        while (answer.equals("H")) {
-            p1.addCard(cardy.deal());
+        while ((answer.equals("H") || answer.equals("h")) && p1.getPoints() <= 21) {
+            p1.addCard(cardy.deal(), true);
             System.out.println(p1.getPoints());
             System.out.println("If you would like to hit press H. Else press any other key");
             answer = s.nextLine();
         }
         while (true) {
+            window.repaint();
             if (ai.getPoints() < 16) {
-                ai.addCard(cardy.deal());
+                ai.addCard(cardy.deal(), false);
             } else {
                 if (ai.getPoints() > 21) {
                     System.out.println("AI Busted, You Win!");

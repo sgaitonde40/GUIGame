@@ -4,6 +4,5 @@ public class Main {
         Game one = new Game("Sog");
         one.printInstructions();
         one.playGame();
-
     }
 }
