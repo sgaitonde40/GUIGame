@@ -4,6 +4,7 @@ public class Player {
     private ArrayList<Card> hand = new ArrayList<Card>();
     private String name;
     private int points;
+    private boolean isWinner;
 
     public Player(String name) {
         this.name = name;
@@ -19,6 +20,7 @@ public class Player {
         this.hand = hand;
         this.name = name;
         points = 0;
+        isWinner = false;
     }
 
     public ArrayList<Card> getHand() {
@@ -35,6 +37,17 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public void setWinner(boolean winner) {
+        this.isWinner = winner;
+        // helps ai cards become visible
+        for(int i = 0; i < getHand().size(); i++) {
+            getHand().get(i).setVisible(true);
+        }
+    }
+
+    public boolean isWinner() {
+        return isWinner;
     }
 
     public void addpoints(int points) {
